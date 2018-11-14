@@ -30,31 +30,32 @@
 	<div class="page-container">
 		<div class="text-c">
 		 <span> 完结状态：</span>
-		 <input type="radio" name="prostatus" value="1" checked/>未完成&nbsp;&nbsp;<input type="radio" name="prostatus" value="2" />已完成&nbsp;&nbsp;<input type="radio" name="prostatus" value="-1" />全部&nbsp;&nbsp; 
+		 <input type="radio" name="prostatus" value="1" checked/>未完成&nbsp;&nbsp;<input type="radio" name="prostatus" value="2" />已完成&nbsp;&nbsp;<input type="radio" name="prostatus" value="-1"/>全部&nbsp;&nbsp; 
 		 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		 订单号/旺旺号：<input type="text" name="orderno" id="orderno" style="width:250px" class="input-text">
 		 &nbsp;&nbsp;&nbsp;快递单号：<input type="text" name="transno" id="transno" style="width:250px" class="input-text">
 		</div>
 		<div style="height:10px"></div>
 		<div class="text-c">
-		是否丢件：<input type="radio" name="misstatus" value="-1" / checked>全部&nbsp;&nbsp; <input type="radio" name="misstatus" value="1" />已丢件&nbsp;&nbsp;<input type="radio" name="misstatus" value="2" />未完成
-		 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span> 创建人：</span><input type="text" name="createby" id="createby"/>&nbsp;&nbsp;
-		 <!--<span class="select-box inline">	
+		是否丢件：<input type="radio" name="misstatus" value="-1" checked>全部&nbsp;&nbsp; <input type="radio" name="misstatus" value="1" />已丢件&nbsp;&nbsp;<input type="radio" name="misstatus" value="2" />未完成
+		 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span> 
+		 <!--创建人：</span><input type="text" name="createby" id="createby"/>&nbsp;&nbsp;
+		 <span class="select-box inline">	
 			<select name="" class="select">
 				<option value="0">全部分类</option>
 				<option value="1">分类一</option>
 				<option value="2">分类二</option>
 			</select>
-			</span>-->	
+			</span>	
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		创建日期：
 			<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}' })" id="logmin" name="logmin" class="input-text Wdate" style="width:120px;">
 			-
 			<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d' })" id="logmax" name="logmax" class="input-text Wdate" style="width:120px;">
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<button name="" id="" class="btn btn-success" onclick="queryData()"><i class="Hui-iconfont">&#xe665;</i> 查询</button>
-		</div>
-		
+			
+		</div>-->
+		<button name="" id="" class="btn btn-success" onclick="queryData()"><i class="Hui-iconfont">&#xe665;</i> 查询</button>
 		<div class="cl pd-5 bg-1 bk-gray mt-20"> 
 			<span class="l">
 				<!--<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>--> 
@@ -128,9 +129,10 @@
 			var createby = $("#createby").val();
 			var logmin = $("#logmin").val();
 			var logmax = $("#logmax").val();
-			//$.ajax({url:"http://www.cssmoban.com",success:function(result){
-				var result="{\"code\":200,\"message\":\"success\",\"data\":{\"pageNum\":1,\"pageSize\":10,\"size\":1,\"startRow\":1,\"endRow\":1,\"total\":1,\"pages\":1,\"list\":[{\"id\":\"1\",\"ids\":null,\"sortColumns\":null,\"shop\":\"tm-lqy\",\"shops\":null,\"createTime\":\"2018-11-13 20:58:32\",\"createTimeGte\":null,\"createTimeLte\":null,\"updateTime\":\"2018-11-13 20:58:35\",\"updateTimeGte\":null,\"updateTimeLte\":null,\"createBy\":\"1\",\"updateBy\":\"1\",\"orderNo\":\"11111\",\"orderNoLike\":null,\"cusName\":\"1212\",\"transNo\":\"123123123\",\"fee\":10.00,\"reason\":\"123123123\",\"eventType\":\"123\",\"dealStatus\":1,\"dealRemark\":\"123123123\",\"miss\":1,\"orderFee\":65.26}],\"prePage\":0,\"nextPage\":0,\"isFirstPage\":true,\"isLastPage\":true,\"hasPreviousPage\":false,\"hasNextPage\":false,\"navigatePages\":8,\"navigatepageNums\":[1],\"navigateFirstPage\":1,\"navigateLastPage\":1,\"firstPage\":1,\"lastPage\":1}}";
-				var res = JSON.parse(result);
+			$.ajax({url:"/shouhouapi/shouhouList/list?pageNum=1&pageSize=10",data:{"dealStatus":prostatus,"orderNo":orderno,"transNo":transno,"miss":misstatus},success:function(result){
+				//var result="{\"code\":200,\"message\":\"success\",\"data\":{\"pageNum\":1,\"pageSize\":10,\"size\":1,\"startRow\":1,\"endRow\":1,\"total\":1,\"pages\":1,\"list\":[{\"id\":\"1\",\"ids\":null,\"sortColumns\":null,\"shop\":\"tm-lqy\",\"shops\":null,\"createTime\":\"2018-11-13 20:58:32\",\"createTimeGte\":null,\"createTimeLte\":null,\"updateTime\":\"2018-11-13 20:58:35\",\"updateTimeGte\":null,\"updateTimeLte\":null,\"createBy\":\"1\",\"updateBy\":\"1\",\"orderNo\":\"11111\",\"orderNoLike\":null,\"cusName\":\"1212\",\"transNo\":\"123123123\",\"fee\":10.00,\"reason\":\"123123123\",\"eventType\":\"123\",\"dealStatus\":1,\"dealRemark\":\"123123123\",\"miss\":1,\"orderFee\":65.26}],\"prePage\":0,\"nextPage\":0,\"isFirstPage\":true,\"isLastPage\":true,\"hasPreviousPage\":false,\"hasNextPage\":false,\"navigatePages\":8,\"navigatepageNums\":[1],\"navigateFirstPage\":1,\"navigateLastPage\":1,\"firstPage\":1,\"lastPage\":1}}";
+				//var res = JSON.parse(result);
+				var res = result;
 				if(res.data && res.data.list) {
 					var tablehtml = "";
 					$("#totalcount").text(res.data.total);
@@ -152,17 +154,21 @@
 											"<td>"+trdata.dealRemark+"</td>"+
 											"<td>"+trdata.miss+"</td>"+
 											"<td>"+trdata.orderFee+"</td>"+
-											"<td class=\"f-14 td-manage\"><a href=\"shouhou_detail.html\" >查看</>&nbsp;&nbsp;<a href=\"shouhou_update.html\">修改</a>"
+											"<td class=\"f-14 td-manage\"><a href = \"javascript:;\" onclick=\"toshouhoupopwindow('shouhou_detail.html?id="+trdata.id+"')\" >查看</>&nbsp;&nbsp;<a href = \"javascript:;\" onclick=\"toshouhoupopwindow('shouhou_update.html?id="+trdata.id+"')\">修改</a>"
 									  "</tr>";
 						tablehtml = tablehtml + trhtml;						
 					}
 					$("#restable").html(tablehtml);
 				}
-			//}});
+			}});
 		}
 		
 		function addshouhou() {
 			makeNewWindow("shouhou_add.html?fromparent=1");
+		}
+		
+		function toshouhoupopwindow(url) {
+			makeNewWindow(url);
 		}
 		
 		var newWindow;//定义一个窗口，有利于窗口间的通讯

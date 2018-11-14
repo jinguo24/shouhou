@@ -106,8 +106,8 @@
 			var misstatus = $("input[name='misstatus']:checked").val();			
 			var orderFee = $("#orderFee").val();
 			var dealremark = $("#dealremark").text();
-			$.ajax({type: 'POST',url: "/shouhouList/add",data:{"shop":shopType,"orderNo":orderno,"cusName":cusname,"transNo":transno,"eventType":eventType,
-				"fee":fee,"reason":reason,"dealStatus":prostatus,"dealRemark":dealremark, "miss":misstatus,"orderFee":orderFee}
+			$.ajax({type: 'POST',url: "/shouhouapi/shouhouList/add",data:{"shop":shopType,"orderNo":orderno,"cusName":cusname,"transNo":transno,"eventType":eventType,
+				"fee":fee,"reason":reason,"dealStatus":prostatus,"dealRemark":dealremark, "miss":misstatus,"orderFee":orderFee},
 			  success: function(data){
 				alert("success!");
 				window.location.href="shouhou_list.html";

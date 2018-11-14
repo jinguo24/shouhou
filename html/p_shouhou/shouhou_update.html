@@ -92,9 +92,10 @@
 		var id = getUrlParam("id");
 	
 		$(document).ready(function(){
-		  //$.ajax({url:"/shouhouList/findById?id="+id,success:function(result){
-			var result = "{\"code\":200,\"message\":\"查询成功\",\"data\":{\"id\":\"1\",\"ids\":null,\"sortColumns\":null,\"shop\":\"tm-lqy\",\"shops\":null,\"createTime\":\"2018-11-13 20:58:32\",\"createTimeGte\":null,\"createTimeLte\":null,\"updateTime\":\"2018-11-13 20:58:35\",\"updateTimeGte\":null,\"updateTimeLte\":null,\"createBy\":\"1\",\"updateBy\":\"1\",\"orderNo\":\"11111\",\"orderNoLike\":null,\"cusName\":\"1212\",\"transNo\":\"123123123\",\"fee\":10.00,\"reason\":\"123123123\",\"eventType\":\"123\",\"dealStatus\":1,\"dealRemark\":\"123123123\",\"miss\":1,\"orderFee\":65.26}}";
-			var res = JSON.parse(result);
+		  $.ajax({url:"/shouhouapi/shouhouList/findById?id="+id,success:function(result){
+			//var result = "{\"code\":200,\"message\":\"查询成功\",\"data\":{\"id\":\"1\",\"ids\":null,\"sortColumns\":null,\"shop\":\"tm-lqy\",\"shops\":null,\"createTime\":\"2018-11-13 20:58:32\",\"createTimeGte\":null,\"createTimeLte\":null,\"updateTime\":\"2018-11-13 20:58:35\",\"updateTimeGte\":null,\"updateTimeLte\":null,\"createBy\":\"1\",\"updateBy\":\"1\",\"orderNo\":\"11111\",\"orderNoLike\":null,\"cusName\":\"1212\",\"transNo\":\"123123123\",\"fee\":10.00,\"reason\":\"123123123\",\"eventType\":\"123\",\"dealStatus\":1,\"dealRemark\":\"123123123\",\"miss\":1,\"orderFee\":65.26}}";
+			//var res = JSON.parse(result);
+			var res = result;
 			if(res.data) {
 				initSelect("shop","shopType",res.data.shop);
 				initSelect("et","eventType",res.data.eventType);	
@@ -114,7 +115,7 @@
 				initSelect("et","eventType");
 			}
 	
-		  //}});
+		  }});
 		  	  
 		});
 		
