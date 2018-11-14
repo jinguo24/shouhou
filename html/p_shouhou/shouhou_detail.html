@@ -22,61 +22,118 @@
 	<script type="text/javascript" src="../lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 	<script type="text/javascript" src="../lib/laypage/1.2/laypage.js"></script>
 	<script type="text/javascript" src="../static/initdata.js"></script>
-
+	<style>
+		/* 第一个 span */
+			.text-c>span:first-child{
+			display: inline-block;
+			width: 30%;
+			text-align: right
+		}
+		/* 第二个 span */
+		.text-c>span:last-child{
+			display: inline-block;
+			width: 50%;
+			text-align: left
+		}
+		/* span 下面的 input */
+		.text-c>span input[type="text"],.text-c>span textarea{
+			width: 100% !important;
+		}
+		.button {
+			background-color: #4CAF50; /* Green */
+			border: none;
+			color: white;
+			padding: 3px 30px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 8px;
+		}
+	</style>
 </head>
 <body>
-    <div>售后问题详情<div>
+    <div style="text-align:center;font-size:20px;color:red">售后问题修改</div>
 	
 	<div class="page-container">
 		<div class="text-c">
-			<span>店铺<span>
+			<span>店铺：</span>
 			<span class="select-box inline">	
-				<select id="shopType" name="shopType" class="select">
+				<select id="shopType" name="shopType" class="select" style="width:100%">
 				</select>
 			</span>
 		</div>
 		<div style="height:10px"></div>
 		<div class="text-c">
-			订单号/旺旺号（<font color="red">*</font>）：<input type="text" name="orderno" id="orderno" readonly style="width:250px" class="input-text">
+			<span>订单号/旺旺号（<font color="red">*</font>）：</span>
+			<span><input type="text" name="orderno" id="orderno" style="width:250px" class="input-text"></span>
 		</div>
 		<div style="height:10px"></div>
 		<div class="text-c">
-			客户姓名：<input type="text" name="cusname" id="cusname" style="width:250px" class="input-text" readonly >
+			<span>客户姓名：</span>
+			<span><input type="text" name="cusname" id="cusname" style="width:250px" class="input-text"></span>
 		</div>
 		<div style="height:10px"></div>
 		<div class="text-c">
-			快递单号：<input type="text" name="transno" id="transno" style="width:250px" class="input-text" readonly >
+			<span>快递单号：</span>
+			<span><input type="text" name="transno" id="transno" style="width:250px" class="input-text"></span>
 		</div>
 		<div style="height:10px"></div>
 		<div class="text-c">
-			事件类型（<font color="red">*</font>）
+			<span>事件类型（<font color="red">*</font>）</span>
 			<span class="select-box inline">	
-				<select id="eventType" name="eventType" class="select">
+				<select id="eventType" name="eventType" class="select" style="width:100%">
 				</select>
 			</span>
 		</div>
 		<div style="height:10px"></div>
 		<div class="text-c">
-			处理金额(<font color="red">数字</font>)：<input type="text" name="fee" id="fee" style="width:250px" readonly  class="input-text">
+			<span>处理金额(<font color="red">数字</font>)：</span>
+			<span><input type="text" name="fee" id="fee" style="width:250px" class="input-text"></span>
 		</div>
 		<div style="height:10px"></div>
 		<div class="text-c">
-			原因：<textarea  id="reason" rows="2" style="width:250px" > </textarea>
+			<span>原因：</span>
+			<span><textarea  id="reason" rows="3" style="width:250px" > </textarea></span>
 		</div>
 		<div style="height:10px"></div>
 		<div class="text-c">
-			是否已完成：<input type="radio" name="prostatus" value="2" />已完成&nbsp;&nbsp;<input type="radio" name="prostatus" value="1" />未完成
-		</div>
-		<div class="text-c">
-			处理备注：<textarea  id="dealremark" rows="2" style="width:250px" > </textarea>
+			<span>是否已完成：</span>
+			<span><input type="radio" name="prostatus" value="1" />未完成&nbsp;&nbsp;<input type="radio" name="prostatus" value="2" />已完成</span>
 		</div>
 		<div style="height:10px"></div>
 		<div class="text-c">
-			是否丢件：<input type="radio" name="misstatus" value="2" />未丢件&nbsp;&nbsp;<input type="radio" name="misstatus" value="1" />已丢件
+			<span>处理备注：</span>
+			<span><textarea  id="dealremark" rows="3" style="width:250px" > </textarea></span>
 		</div>
 		<div style="height:10px"></div>
 		<div class="text-c">
-			丢件订单金额：(<font color="red">数字</font>)：<input type="text" name="orderFee" id="orderFee" style="width:250px" class="input-text">
+			<span>是否丢件：</span>
+			<span><input type="radio" name="misstatus" value="2" />未丢件&nbsp;&nbsp;<input type="radio" name="misstatus" value="1" />已丢件</span>
+		</div>
+		<div style="height:10px"></div>
+		<div class="text-c">
+			<span>丢件订单金额：(<font color="red">数字</font>)：</span>
+			<span><input type="text" name="orderFee" id="orderFee" style="width:250px" class="input-text"></span>
+		</div>
+		<div style="height:10px"></div>
+		<div class="text-c">
+			<span>创建人：</span>
+			<span><input type="text" name="createby" id="createby" style="width:250px" class="input-text"></span>
+		</div>
+		<div style="height:10px"></div>
+		<div class="text-c">
+			<span>创建时间：</span>
+			<span><input type="text" name="createtime" id="createtime" style="width:250px" class="input-text"></span>
+		</div>
+		<div style="height:10px"></div>
+		<div class="text-c">
+			<span>最后更改人：</span>
+			<span><input type="text" name="updateby" id="updateby" style="width:250px" class="input-text"></span>
+		</div>
+		<div style="height:10px"></div>
+		<div class="text-c">
+			<span>最后更新时间：</span>
+			<span><input type="text" name="updatetime" id="updatetime" style="width:250px" class="input-text"></span>
 		</div>
 		
 
@@ -93,8 +150,8 @@
 			//var res = JSON.parse(result);
 			var res = result;
 			if(res.data) {
-				initSelect("shop","shopType",res.data.shop);
-				initSelect("et","eventType",res.data.eventType);	
+				initSelect("shop","shopType",false,res.data.shop);
+				initSelect("et","eventType",false,res.data.eventType);	
 				$("#shopType").val(res.data.shop);
 				$("#orderno").val(res.data.orderNo);
 				$("#cusname").val(res.data.cusName);
@@ -106,6 +163,10 @@
 				$("input[name='misstatus'][value='"+res.data.miss+"']").attr("checked",true);						
 				$("#orderFee").val(res.data.orderFee);
 				$("#dealremark").text(res.data.dealRemark);
+				$("#createby").val(res.data.createBy);
+				$("#createtime").val(res.data.createTime);
+				$("#updateby").val(res.data.updateBy);
+				$("#updatetime").val(res.data.updateTime);
 			}else {
 				initSelect("shop","shopType");
 				initSelect("et","eventType");
