@@ -158,11 +158,11 @@
 				$("#transno").val(res.data.transNo);
 				$("#eventType").val(res.data.eventType);
 				$("#fee").val(res.data.fee);
-				$("#reason").text(res.data.reason);
+				$("#reason").val(res.data.reason);
 				$("input[name='prostatus'][value='"+res.data.dealStatus+"']").attr("checked",true);
 				$("input[name='misstatus'][value='"+res.data.miss+"']").attr("checked",true);						
 				$("#orderFee").val(res.data.orderFee);
-				$("#dealremark").text(res.data.dealRemark);
+				$("#dealremark").val(res.data.dealRemark);
 				$("#createby").val(res.data.createBy);
 				$("#createtime").val(res.data.createTime);
 				$("#updateby").val(res.data.updateBy);

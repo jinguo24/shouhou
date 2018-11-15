@@ -30,7 +30,7 @@
 	<div class="page-container">
 		<div class="text-c">
 		 <span> 完结状态：</span>
-		 <input type="radio" name="prostatus" value="1" checked/>未完成&nbsp;&nbsp;<input type="radio" name="prostatus" value="2" />已完成&nbsp;&nbsp;<input type="radio" name="prostatus" value="-1"/>全部&nbsp;&nbsp; 
+		 <input type="radio" name="prostatus" value="1" checked />未完成&nbsp;&nbsp;<input type="radio" name="prostatus" value="2" />已完成&nbsp;&nbsp;<input type="radio" name="prostatus" value="-1"/>全部&nbsp;&nbsp; 
 		 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		 订单号/旺旺号：<input type="text" name="orderno" id="orderno" style="width:250px" class="input-text">
 		 &nbsp;&nbsp;&nbsp;快递单号：<input type="text" name="transno" id="transno" style="width:250px" class="input-text">
@@ -150,10 +150,12 @@
 					for (var i = 0 ; i < res.data.list.length; i++) {
 						var trdata = res.data.list[i];
 						var delstatusdec = "";
+						var delstatuscolor=""
 						if (trdata.dealStatus == 1) {
 							delstatusdec = "待处理";
 						}else {
 							delstatusdec = "已完成";
+							delstatuscolor = "background-color:green;";
 						}
 						var missdec="";
 						if (trdata.miss == 1) {
@@ -161,6 +163,7 @@
 						}else {
 							missdec = "未丢件";
 						}
+						
 						var trhtml = "<tr class=\"text-c\">" +
 											"<td>"+shouhouTypeMap["shop_"+trdata.shop]+"</td>" +
 											"<td>"+trdata.orderNo+"</td>"+
@@ -169,7 +172,7 @@
 											"<td>"+shouhouTypeMap["et_"+trdata.eventType]+"</td>"+
 											//"<td>"+trdata.reason+"</td>"+
 											//"<td>"+trdata.fee+"</td>"+
-											"<td class=\"td-status\">"+delstatusdec+"</td>"+
+											"<td class=\"td-status\" style=\""+delstatuscolor+"\">"+delstatusdec+"</td>"+
 											//"<td>"+trdata.dealRemark+"</td>"+
 											"<td>"+missdec+"</td>"+
 											//"<td>"+trdata.orderFee+"</td>"+

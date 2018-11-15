@@ -52,7 +52,7 @@
 	</style>
 </head>
 <body>
-    <div style="text-align:center;font-size:20px;color:red">售后问题添加</div>
+    <div style="text-align:center;font-size:20px;color:red">补发件修改</div>
 	
 	<div class="page-container">		
 		<div class="text-c">
@@ -69,37 +69,37 @@
 		</div>
 		<div style="height:10px"></div>
 		<div class="text-c">
-			<span>事件类型（<font color="red">*</font>）</span>
-			<span class="select-box inline">	
-				<select id="eventType" name="eventType" class="select" style="width:100%">
-				</select>
-			</span>
-		</div>	
-		<div style="height:10px"></div>
-		<div class="text-c">
-			<span>原因：</span>
-			<span><textarea  id="reason" rows="3" style="width:250px" > </textarea></span>
+			<span>是否邮政：</span>
+			<span> <input type="radio" name="ems" value="2" checked />发申通&nbsp;&nbsp;<input type="radio" name="ems" value="1" />发邮政</span>
 		</div>		
-		<div style="height:10px"></div>
-		<div class="text-c">
-			<span>是否已完成：</span>
-			<span> <input type="radio" name="prostatus" value="1" checked />待处理&nbsp;&nbsp;<input type="radio" name="prostatus" value="2" />已完成</span>
-		</div>		
-		<div style="height:10px"></div>
-		<div class="text-c">
-			<span>处理金额(<font color="red">数字</font>)：</span>
-			<span><input type="text" name="fee" id="fee" style="width:250px" class="input-text"></span>
-		</div>		
-		<div style="height:10px"></div>
-		<div class="text-c">
-			<span>处理备注：</span>
-			<span><textarea  id="dealremark" rows="3" style="width:250px" > </textarea></span>
-		</div>				
 		<div style="height:10px"></div>
 		<div class="text-c">
 			<span>客户姓名：</span>
 			<span><input type="text" name="cusname" id="cusname" style="width:250px" class="input-text"></span>
+		</div>	
+		<div style="height:10px"></div>
+		<div class="text-c">
+			<span>客户电话：</span>
+			<span><input type="text" name="cusphone" id="cusphone" style="width:250px" class="input-text"></span>
 		</div>
+		<div style="height:10px"></div>
+		<div class="text-c">
+			<span>客户地址：</span>
+			<span><input type="text" name="cusaddr" id="cusaddr" style="width:250px" class="input-text"></span>
+		</div>	
+		<div style="height:10px"></div>
+		<div class="text-c">
+			<span>补发件信息（<font color="red">货品 + 颜色 + 尺码 +数量</font>）：</span>
+			<span><textarea  id="content" rows="3" style="width:250px" > </textarea></span>
+		</div>
+		<div style="height:10px"></div>
+		<div class="text-c">
+			<span>补发原因：</span>
+			<span class="select-box inline">	
+				<select id="bufareason" name="bufareason" class="select" style="width:100%">
+				</select>
+			</span>
+		</div>			
 		<div style="height:10px"></div>
 		<div class="text-c">
 			<span>快递单号：</span>
@@ -107,14 +107,14 @@
 		</div>
 		<div style="height:10px"></div>
 		<div class="text-c">
-			<span>是否丢件：</span>
-			<span><input type="radio" name="misstatus" value="2" checked />未丢件&nbsp;&nbsp;<input type="radio" name="misstatus" value="1" />已丢件</span>
-		</div>
+			<span>是否有揽收物流信息：</span>
+			<span> <input type="radio" name="transinfo" value="1" checked />无&nbsp;&nbsp;<input type="radio" name="transinfo" value="2" />有</span>
+		</div>					
 		<div style="height:10px"></div>
 		<div class="text-c">
-			<span>丢件订单金额：(<font color="red">数字</font>)：</span>
-			<span><input type="text" name="orderFee" id="orderFee" style="width:250px" class="input-text"></span>
-		</div>
+			<span>处理备注：</span>
+			<span><textarea  id="dealremark" rows="3" style="width:250px" > </textarea></span>
+		</div>				
 		<div style="height:10px"></div>
 		<div class="text-c">
 			<button id="savebtn" type="button" onclick="savedata()" class="button">保存</button>
@@ -126,29 +126,53 @@
 	
 	<script type="text/javascript">
 	
+		var id = getUrlParam("id");
+	
 		$(document).ready(function(){
-		  initSelect("shop","shopType");
-		  initSelect("et","eventType");		  
+		  $.ajax({url:"/shouhouapi/shouhouBujian/findById?id="+id,success:function(result){
+			//var result = "{\"code\":200,\"message\":\"查询成功\",\"data\":{\"id\":\"1\",\"ids\":null,\"sortColumns\":null,\"shop\":\"tm-lqy\",\"shops\":null,\"createTime\":\"2018-11-13 20:58:32\",\"createTimeGte\":null,\"createTimeLte\":null,\"updateTime\":\"2018-11-13 20:58:35\",\"updateTimeGte\":null,\"updateTimeLte\":null,\"createBy\":\"1\",\"updateBy\":\"1\",\"orderNo\":\"11111\",\"orderNoLike\":null,\"cusName\":\"1212\",\"transNo\":\"123123123\",\"fee\":10.00,\"reason\":\"123123123\",\"eventType\":\"123\",\"dealStatus\":1,\"dealRemark\":\"123123123\",\"miss\":1,\"orderFee\":65.26}}";
+			//var res = JSON.parse(result);
+			var res = result;
+			if(res.data) {
+				initSelect("shop","shopType",false,res.data.shop);
+				initSelect("bujian","bufareason",false,res.data.reason);	
+				$("#shopType").val(res.data.shop);
+				$("#orderno").val(res.data.orderNo);
+				$("input[name='ems'][value='"+res.data.ems+"']").attr("checked",true);
+				$("#cusname").val(res.data.cusName);
+				$("#cusphone").val(res.data.cusPhone);
+				$("#cusaddr").val(res.data.cusAddr);
+				$("#content").val(res.data.content);
+				$("#transno").val(res.data.transNo);
+				$("input[name='transinfo'][value='"+res.data.transInfo+"']").attr("checked",true);
+				$("#dealremark").val(res.data.dealRemark);				
+			}else {
+				initSelect("shop","shopType");
+				initSelect("bujian","bufareason");
+			}
+	
+		  }});
+		  	  
 		});
 		
 		function savedata() {
 			var shopType=$("#shopType").val();
 			var orderno = $("#orderno").val();
+			var ems = $("input[name='ems']:checked").val();
 			var cusname = $("#cusname").val();
+			var cusphone = $("#cusphone").val();
+			var cusaddr = $("#cusaddr").val();
+			var content = $("#content").val();
+			var bufareason = $("#bufareason").val();			
 			var transno = $("#transno").val();
-			var eventType = $("#eventType").val();
-			var fee = $("#fee").val();
-			var reason = $("#reason").val();
-			var prostatus = $("input[name='prostatus']:checked").val();
-			var misstatus = $("input[name='misstatus']:checked").val();			
-			var orderFee = $("#orderFee").val();
+			var transinfo = $("input[name='transinfo']:checked").val();	
 			var dealremark = $("#dealremark").val();
-			$.ajax({type: 'POST',url: "/shouhouapi/shouhouList/add",data:{"shop":shopType,"orderNo":orderno,"cusName":cusname,"transNo":transno,"eventType":eventType,
-				"fee":fee,"reason":reason,"dealStatus":prostatus,"dealRemark":dealremark, "miss":misstatus,"orderFee":orderFee},
+			$.ajax({type: 'POST',url: "/shouhouapi/shouhouBujian/update",data:{"id":id,"shop":shopType,"orderNo":orderno,"ems":ems,"cusName":cusname,"cusPhone":cusphone,"cusAddr":cusaddr,
+			"content":content,"reason":bufareason,"transNo":transno,"transInfo":transinfo,"dealRemark":dealremark},
 			  success: function(data){
 				if(data.code==200) {
 					alert("success!");
-					window.location.href="shouhou_list.html";
+					window.location.href="bufa_list.html";
 				}else {
 					alert(data.message);
 				}
