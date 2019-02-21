@@ -70,6 +70,10 @@
 		<if test=" null != sortColumns"> order by ${sortColumns} </if>
 	</sql>
 	<!-- HoldEnd -->
-
+	
+	<select id="findList" parameterType="com.simple.domain.po.ShouhouBujian" resultMap="BaseResultMap">
+		select <include refid="allColumns" /> from shouhou_bujian
+		<include refid="dynamicWhereConditions" />
+	</select>
 
 </mapper>
