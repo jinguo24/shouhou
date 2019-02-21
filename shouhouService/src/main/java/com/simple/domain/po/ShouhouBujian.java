@@ -35,8 +35,8 @@ public class ShouhouBujian extends BaseModel {
 	/*原因**/
 	@io.swagger.annotations.ApiModelProperty(value="原因",name="reason")
 	private String reason;
-	/*创建时间**/
-	@io.swagger.annotations.ApiModelProperty(value="创建时间",name="createTime")
+	/*创建时间[GTE][LTE]**/
+	@io.swagger.annotations.ApiModelProperty(value="创建时间[GTE][LTE]",name="createTime")
 	private Date createTime;
 	@Transient
 	private Date createTimeGte;
@@ -68,11 +68,6 @@ public class ShouhouBujian extends BaseModel {
 	/*收件人地址**/
 	@io.swagger.annotations.ApiModelProperty(value="收件人地址",name="cusAddr")
 	private String cusAddr;
-	@HoldBegin
-	/*鏄惁鏈夊崟鍙凤紝渚涙煡璇娇鐢�**/
-	@Transient
-	private Integer transnohave;
-	@HoldEnd
 	public String  getOrderNo() {
 		return orderNo;
 	}
@@ -133,6 +128,18 @@ public class ShouhouBujian extends BaseModel {
 	public void setCreateTime(Date _createTime) {
 		createTime = _createTime;
 	}
+	public Date getCreateTimeGte() {
+		return createTimeGte;
+	}
+	public void setCreateTimeGte( Date _createTimeGte) {
+		createTimeGte = _createTimeGte;
+	}
+	public Date getCreateTimeLte() {
+		return createTimeLte;
+	}
+	public void setCreateTimeLte( Date _createTimeLte) {
+		createTimeLte = _createTimeLte;
+	}
 	public String  getCreateBy() {
 		return createBy;
 	}
@@ -187,24 +194,21 @@ public class ShouhouBujian extends BaseModel {
 	public void setCusAddr(String _cusAddr) {
 		cusAddr = _cusAddr;
 	}
+
+	@HoldBegin
+	/*閺勵垰鎯侀張澶婂礋閸欏嚖绱濇笟娑欑叀鐠囶澀濞囬悽锟�**/
+	@Transient
+	private Integer transnohave;
 	public Integer getTransnohave() {
 		return transnohave;
 	}
 	public void setTransnohave(Integer transnohave) {
 		this.transnohave = transnohave;
 	}
-	public Date getCreateTimeGte() {
-		return createTimeGte;
-	}
-	public void setCreateTimeGte(Date createTimeGte) {
-		this.createTimeGte = createTimeGte;
-	}
-	public Date getCreateTimeLte() {
-		return createTimeLte;
-	}
-	public void setCreateTimeLte(Date createTimeLte) {
-		this.createTimeLte = createTimeLte;
-	}
+
+	@HoldEnd
+
+
 
 	public static enum Field
 	{

@@ -23,13 +23,7 @@
 	<sql id="allColumns">
 	    `id`,`order_no`,`shop`,`ems`,`cus_name`,`content`,`reason`,`create_time`,`create_by`,`update_time`,`update_by`,`trans_no`,`trans_info`,`deal_remark`,`cus_phone`,`cus_addr` 
 	</sql>
-	
-	<select id="findList" parameterType="com.simple.domain.po.ShouhouBujian" resultMap="BaseResultMap">
-		select <include refid="allColumns" /> from shouhou_bujian
-		<include refid="dynamicWhereConditions" />
-	</select>
-	
-			<!-- HoldBegin -->
+				<!-- HoldBegin -->
 	<sql id="dynamicWhereConditions">
 	        where 1 = 1
 		<if test=" null != id "> and `id` = #{id} </if>    

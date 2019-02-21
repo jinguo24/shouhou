@@ -44,11 +44,6 @@ public class ShouhouBujianController extends BaseController
 {
 	@Autowired
     private ShouhouBujianService shouhouBujianService;
-	
-	@HoldBegin
-	@Autowired
-    private ShouhouTypeService shouhouTypeService;
-	@HoldEnd
 
     private Logger logger = Logger.getLogger(ShouhouBujianController.class);
 
@@ -65,11 +60,16 @@ public class ShouhouBujianController extends BaseController
     	return new ResultData(Result.SUCCESS,"查询成功",shouhouBujianService.getById(id));
     }
 	
+		@HoldBegin
+	@Autowired
+    private ShouhouTypeService shouhouTypeService;
+	@HoldEnd
+
      @HoldBegin
     @GetMapping("list")
         @ApiImplicitParams({
-    	  @ApiImplicitParam(name="pageNum",value="椤垫暟",dataType="int", paramType = "query",required=true),
-    	  @ApiImplicitParam(name="pageSize",value="姣忛〉鏉℃暟",dataType="int", paramType = "query",required=true)})
+    	  @ApiImplicitParam(name="pageNum",value="妞ゅ灚鏆�",dataType="int", paramType = "query",required=true),
+    	  @ApiImplicitParam(name="pageSize",value="濮ｅ繘銆夐弶鈩冩殶",dataType="int", paramType = "query",required=true)})
     public ResultData list(@ModelAttribute ShouhouBujian shouhouBujian,Integer pageNum, Integer pageSize,Integer hastransno) {
     	if (null == shouhouBujian) shouhouBujian = new ShouhouBujian();
     	if (null == hastransno || hastransno <=0 ) {
@@ -91,8 +91,8 @@ public class ShouhouBujianController extends BaseController
      
      @GetMapping("todayList")
      @ApiImplicitParams({
- 	  @ApiImplicitParam(name="pageNum",value="椤垫暟",dataType="int", paramType = "query",required=true),
- 	  @ApiImplicitParam(name="pageSize",value="姣忛〉鏉℃暟",dataType="int", paramType = "query",required=true)})
+ 	  @ApiImplicitParam(name="pageNum",value="妞ゅ灚鏆�",dataType="int", paramType = "query",required=true),
+ 	  @ApiImplicitParam(name="pageSize",value="濮ｅ繘銆夐弶鈩冩殶",dataType="int", paramType = "query",required=true)})
 	 public ResultData todayList(@ModelAttribute ShouhouBujian shouhouBujian,Integer pageNum, Integer pageSize) {
 	 	if (null == shouhouBujian) shouhouBujian = new ShouhouBujian();
 	 	shouhouBujian.setCreateTimeGte(getBeginTime());
@@ -108,10 +108,10 @@ public class ShouhouBujianController extends BaseController
 	@HoldBegin
     @PostMapping("add")
     public ResultData add( ShouhouBujian shouhouBujian) {
-        //Assert.notNull(shouhouBujian.getName(), "瑙掕壊鍚嶄笉鑳戒负绌�");
-        //Assert.isTrue(!checkUnique(sysRole.getName(), null), "閲嶅鐨勮鑹插悕");
+        //Assert.notNull(shouhouBujian.getName(), "鐟欐帟澹婇崥宥勭瑝閼虫垝璐熺粚锟�");
+        //Assert.isTrue(!checkUnique(sysRole.getName(), null), "闁插秴顦查惃鍕潡閼规彃鎮�");
 	    shouhouBujian.setOrderNo(StringUtils.trimToNull(shouhouBujian.getOrderNo()));
-	    Assert.notNull(shouhouBujian.getOrderNo(), "璁㈠崟鍙蜂笉鑳戒负绌�");
+	    Assert.notNull(shouhouBujian.getOrderNo(), "鐠併垹宕熼崣铚傜瑝閼虫垝璐熺粚锟�");
     	shouhouBujian.setCreateTime(new Date());
     	shouhouBujian.setCreateBy("123");
     	shouhouBujian.setUpdateTime(new Date());
@@ -123,7 +123,7 @@ public class ShouhouBujianController extends BaseController
     @PostMapping("update")
     public ResultData update( ShouhouBujian shouhouBujian) {
 	    shouhouBujian.setOrderNo(StringUtils.trimToNull(shouhouBujian.getOrderNo()));
-	    Assert.notNull(shouhouBujian.getOrderNo(), "璁㈠崟鍙蜂笉鑳戒负绌�");
+	    Assert.notNull(shouhouBujian.getOrderNo(), "鐠併垹宕熼崣铚傜瑝閼虫垝璐熺粚锟�");
     	shouhouBujian.setUpdateTime(new Date());
     	shouhouBujian.setUpdateBy("123");
         shouhouBujianService.saveOrUpdate(shouhouBujian);
@@ -131,17 +131,14 @@ public class ShouhouBujianController extends BaseController
     }
     
    @GetMapping("/exportTms")
-   public void exportTms(HttpServletResponse response) {
+   public void exportTms(HttpServletResponse response,String shopType) {
 	   final String[] titles = new String[]{"订单编号","收件人","固话","手机","地址","发货信息","宝贝数量","总重量","备注","代收金额","保价金额","业务类型","实付金额"};
 	   ShouhouBujian sbq = new ShouhouBujian();
 	   sbq.setCreateTimeGte(getBeginTime());
 	   sbq.setCreateTimeLte(getEndTime());
 	   sbq.setTransnohave(1);
 	   List<String> _shops = new ArrayList<>();
-	   _shops.add("tm-lqy");
-	   _shops.add("tm-dkl");
-	   _shops.add("pdd-dd");
-	   _shops.add("pdd-yy");
+	   _shops.add(shopType);
 	   sbq.setShops(_shops);
 	   PageInfo result = shouhouBujianService.listAsPage(sbq, 1, 10000);
 	   if (null != result && null != result.getList()) {
@@ -151,31 +148,29 @@ public class ShouhouBujianController extends BaseController
 				public List<EntityCellValues> getCellValues(Object o) {
 					ShouhouBujian p = (ShouhouBujian) o;
 					List<String> sl = new ArrayList<String>();
-					sl.add(p.getOrderNo());
-					if(p.getEms().intValue()==1) {
-						sl.add("邮政"+p.getCusName());
-					}else {
-						sl.add(p.getCusName());
-					}
-					
+					sl.add("");
+					sl.add(p.getCusName());
 					sl.add("");
 					sl.add(p.getCusPhone());
 					sl.add(p.getCusAddr());
-					sl.add(p.getContent());
+					if (null != resonMap) {
+						sl.add("【补发-"+resonMap.get(p.getReason())+"】 "+p.getContent());
+					}else {
+						sl.add("【补发-"+p.getReason()+"】 "+p.getContent());
+					}
 					sl.add("1");
 					sl.add("");
-					if (null != resonMap) {
-						sl.add(resonMap.get(p.getReason()));
+					if(p.getEms().intValue()==1) {
+						sl.add("发邮政  "+p.getOrderNo());
 					}else {
-						sl.add(p.getReason());
+						sl.add(p.getOrderNo());
 					}
-					
 					sl.add("");
 					sl.add("");
 					sl.add("");
 					sl.add("");
-					//姝ゅ杩斿洖list瀵硅薄锛屾弧瓒虫煡璇㈢殑涓�鏉℃暟鎹渶瑕佹媶鍒嗘垚澶氫釜瀵硅薄
-					//>>>1锛屼笉鎷嗗垎瀵硅薄 
+					//濮濄倕顦╂潻鏂挎礀list鐎电钖勯敍灞惧姬鐡掕櫕鐓＄拠銏㈡畱娑擄拷閺夆剝鏆熼幑顕�娓剁憰浣瑰閸掑棙鍨氭径姘嚋鐎电钖�
+					//>>>1閿涘奔绗夐幏鍡楀瀻鐎电钖� 
 					List<EntityCellValues> list = new ArrayList<EntityCellValues>();
 					EntityCellValues ecv = new EntityCellValues();
 					ecv.setO(p);
@@ -224,11 +219,11 @@ public class ShouhouBujianController extends BaseController
     
    private void pushtoresponse(HttpServletResponse response,String content) {
 	   try {
-           // 清空response
+           // 娓呯┖response
            response.reset();
-           response.setContentType("text/html;charset=UTF-8");//设置响应内容和编码规则
+           response.setContentType("text/html;charset=UTF-8");//璁剧疆鍝嶅簲鍐呭鍜岀紪鐮佽鍒�
            OutputStream out = response.getOutputStream();
-           out.write(content.getBytes());//可以正常现实出中文
+           out.write(content.getBytes());//鍙互姝ｅ父鐜板疄鍑轰腑鏂�
        } catch (Exception ex) {
            ex.printStackTrace();
        }
@@ -268,4 +263,6 @@ public class ShouhouBujianController extends BaseController
    }
     //@HoldEnd
 
+
+	
 }
