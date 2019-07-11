@@ -16,6 +16,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
 import com.simple.common.excel.ObjectExcutor;
@@ -85,9 +86,9 @@ public class AnalysisWordsController extends BaseController
 	 @HoldBegin
      @PostMapping("/uploadwords")
 	 @ApiImplicitParam(name="productId",value="产品编号",dataType="String", paramType = "query",required=true)
-     public String uploadwords(String productId,File file,HttpServletRequest request,HttpServletResponse response) throws Exception {
- 		String suffix = file.getName().substring(file.getName().lastIndexOf(".")+1);
- 		ResponseInfo ri = ReadExcel.readReturnWorkBook(new FileInputStream(file),new ObjectExcutor(){
+     public String uploadwords(String productId,@RequestParam("file") MultipartFile file,HttpServletRequest request,HttpServletResponse response) throws Exception {
+ 		String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
+ 		ResponseInfo ri = ReadExcel.readReturnWorkBook(file.getInputStream(),new ObjectExcutor(){
  				@Override
  				public Object getObject(Map objectMap,List<String> cellValues) {
  						String wordsname = StringUtils.trimToNull(cellValues.get(0));
@@ -133,31 +134,27 @@ public class AnalysisWordsController extends BaseController
  							throw new RuntimeException(errormsg.toString());
  						}else {
  							
- 	 						AnalysisWords  awq = new AnalysisWords();
- 	 						awq.setWordsName(wordsname);
- 	 						awq.setProductId(productId);
- 	 						PageInfo<AnalysisWords> rs = analysisWordsService.listAsPage(awq, 1, 1);
- 	 						if (null == rs || null == rs.getList() || rs.getList().size() <= 0) {
+ 	 						AnalysisWords  awq = analysisWordsService.findOne(productId,wordsname);
+ 	 						if (null == awq) {
+ 	 							awq = new AnalysisWords();
  	 							awq.setWordsName(wordsname);
  	 							awq.setProductId(productId);
  	 							awq.setCreateTime(new Date());
  	 							analysisWordsService.saveOrUpdate(awq);
  	 						}
  	 						
- 	 						AnalysisWords  awq1 = new AnalysisWords();
- 	 						awq1.setWordsName(wordsname);
- 	 						awq1.setProductId(productId);
- 	 						PageInfo<AnalysisWords> rs1 = analysisWordsService.listAsPage(awq, 1, 1);
- 	 						if (null == rs1 || null == rs1.getList() || rs1.getList().size() <= 0) {
+ 	 						AnalysisWords aw = analysisWordsService.findOne(productId,wordsname);
+ 	 						if (null == aw) {
  	 							return null;
  	 						}
- 	 						AnalysisWords aw = rs1.getList().get(0);
  	 						AnalysisWordData awd = new AnalysisWordData();
  	 						awd.setCr(crd);
  	 						awd.setCreateTime(new Date());
  	 						awd.setPayCounts(paycount);
  	 						awd.setPayCounts(peoplecount);
  	 						awd.setWordsId(aw.getId());
+ 	 						awd.setProductId(aw.getProductId());
+ 	 						awd.setWordsName(aw.getWordsName());
  							//此处设置objectMap,在重写executeListAdd的时候，需要查询出list之前的对象，根据objectMap来查询
  							//objectMap.put(p.getCardNo(), awd);
  							return awd;

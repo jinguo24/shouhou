@@ -43,4 +43,13 @@ public class AnalysisWordsServiceImpl implements AnalysisWordsService {
         analysisWordsMapper.deleteByPrimaryKey(id);
     }
 
+   //@HoldBegin
+	@Override
+	public AnalysisWords findOne(String productId, String wordsName) {
+		Map param = new HashMap();
+		param.put("productId", productId);
+		param.put("wordsName", wordsName);
+		return analysisWordsMapper.findOne(param);
+	}
+	 //@HoldEnd
 }

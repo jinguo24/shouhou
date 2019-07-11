@@ -13,5 +13,7 @@ public interface AnalysisWordsMapper extends CommonMapper<AnalysisWords, String>
 
 	List<AnalysisWords> findList(AnalysisWords analysisWords);
 	
-	
+	//@HoldBegin
+	AnalysisWords findOne(Map param);
+	//@HoldEnd
 }

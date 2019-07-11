@@ -39,5 +39,9 @@
 		<include refid="dynamicWhereConditions" />
 	</select>
 	
+	<select id="findOne" parameterType="Map" resultMap="BaseResultMap">
+		select <include refid="allColumns" /> from analysis_words where `product_id` = #{productId} and `words_name` = #{wordsName} 
+	</select>
+	
 	
 </mapper>

@@ -40,5 +40,10 @@ public interface AnalysisWordsService {
      */
     void deleteById(String id);
     
+    
+    //@HoldBegin
+    AnalysisWords findOne(String productId, String wordsName);
 	
+    
+    //@HoldEnd
 }
