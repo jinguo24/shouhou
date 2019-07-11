@@ -83,7 +83,7 @@ public class AnalysisWordsController extends BaseController
 
 
 	 @HoldBegin
-     @GetMapping("/uploadwords")
+     @PostMapping("/uploadwords")
 	 @ApiImplicitParam(name="productId",value="产品编号",dataType="String", paramType = "query",required=true)
      public String uploadwords(String productId,File file,HttpServletRequest request,HttpServletResponse response) throws Exception {
  		String suffix = file.getName().substring(file.getName().lastIndexOf(".")+1);
