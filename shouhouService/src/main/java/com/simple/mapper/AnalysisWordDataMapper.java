@@ -19,7 +19,7 @@ public interface AnalysisWordDataMapper extends CommonMapper<AnalysisWordData, S
 	
 	
 				//@HoldBegin
-	PageInfo<AnalysisWordData> caluculateList(AnalysisWordData analysisWordData);
+	List<AnalysisWordData> caluculateList(AnalysisWordData analysisWordData);
 	//@HoldEnd
 
 

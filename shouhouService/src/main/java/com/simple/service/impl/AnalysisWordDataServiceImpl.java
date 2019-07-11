@@ -43,15 +43,13 @@ public class AnalysisWordDataServiceImpl implements AnalysisWordDataService {
         analysisWordDataMapper.deleteByPrimaryKey(id);
     }
     
-    
-    
-    
-    
-    
-                //@HoldBegin
+    //@HoldBegin
 	@Override
 	public PageInfo<AnalysisWordData> caluculateListAsPage(AnalysisWordData record, Integer pageIndex, Integer pageSize) {
-		 return PageHelper.startPage(pageIndex, pageSize).doSelectPageInfo(() -> analysisWordDataMapper.caluculateList(record));
+		PageHelper.startPage(pageIndex, pageSize);
+		List<AnalysisWordData> userList = analysisWordDataMapper.caluculateList(record);
+		PageInfo<AnalysisWordData> pageInfo = new PageInfo<AnalysisWordData>(userList);
+		 return pageInfo;
 	}
 	//@HoldEnd
 
