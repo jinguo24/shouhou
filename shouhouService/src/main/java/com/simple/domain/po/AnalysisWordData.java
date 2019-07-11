@@ -132,13 +132,13 @@ public class AnalysisWordData extends BaseModel {
 	{
 		Id_ASC("`id` ASC"),Id_DESC("`id` DESC")
 			,WordsId_ASC("`wordsId` ASC"),WordsId_DESC("`wordsId` DESC")
-			,PeopleCounts_ASC("`peopleCounts` ASC"),PeopleCounts_DESC("`peopleCounts` DESC")
-			,PayCounts_ASC("`payCounts` ASC"),PayCounts_DESC("`payCounts` DESC")
+			,PeopleCounts_ASC("`people_counts` ASC"),PeopleCounts_DESC("`people_counts` DESC")
+			,PayCounts_ASC("`pay_counts` ASC"),PayCounts_DESC("`pay_counts` DESC")
 			,Cr_ASC("`cr` ASC"),Cr_DESC("`cr` DESC")
 			,CreateBy_ASC("`createBy` ASC"),CreateBy_DESC("`createBy` DESC")
-			,CreateTime_ASC("`createTime` ASC"),CreateTime_DESC("`createTime` DESC")
+			,CreateTime_ASC("`create_time` ASC"),CreateTime_DESC("`create_time` DESC")
 			,UpdateBy_ASC("`updateBy` ASC"),UpdateBy_DESC("`updateBy` DESC")
-			,UpdateTime_ASC("`updateTime` ASC"),UpdateTime_DESC("`updateTime` DESC")
+			,UpdateTime_ASC("`update_time` ASC"),UpdateTime_DESC("`update_time` DESC")
 			,ProductId_ASC("`productId` ASC"),ProductId_DESC("`productId` DESC")
 			,WordsName_ASC("`wordsName` ASC"),WordsName_DESC("`wordsName` DESC")
 	;

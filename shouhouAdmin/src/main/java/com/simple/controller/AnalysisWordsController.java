@@ -151,7 +151,7 @@ public class AnalysisWordsController extends BaseController
  	 						awd.setCr(crd);
  	 						awd.setCreateTime(new Date());
  	 						awd.setPayCounts(paycount);
- 	 						awd.setPayCounts(peoplecount);
+ 	 						awd.setPeopleCounts(peoplecount);
  	 						awd.setWordsId(aw.getId());
  	 						awd.setProductId(aw.getProductId());
  	 						awd.setWordsName(aw.getWordsName());
