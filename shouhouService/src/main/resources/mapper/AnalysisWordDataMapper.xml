@@ -60,7 +60,7 @@
 		<if test=" null != wordsNameLike and '' != wordsNameLike "> and `words_name`  like concat('%', #{wordsNameLike},'%')</if>
 		<if test=" null != createTimeGte ">  and `create_time`  >= #{createTimeGte} </if>  
 		<if test=" null != createTimeLte "> and #{createTimeLte}  >=  `create_time` </if>  
-		GROUP BY words_id ORDER BY cr DESC,pay_counts DESC
+		GROUP BY words_id ORDER BY pay_counts DESC, cr DESC
 	</select>	
 	<!-- HoldEnd -->
 

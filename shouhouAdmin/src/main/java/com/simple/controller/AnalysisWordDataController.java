@@ -1,5 +1,9 @@
 package com.simple.controller;
 
+import java.text.ParseException;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
@@ -24,16 +28,32 @@ public class AnalysisWordDataController extends BaseController
 
     private Logger logger = Logger.getLogger(AnalysisWordDataController.class);
 
+    @HoldBegin
     @GetMapping("list")
         @ApiImplicitParams({
     	  @ApiImplicitParam(name="pageNum",value="页数",dataType="int", paramType = "query",required=true),
     	  @ApiImplicitParam(name="pageSize",value="每页条数",dataType="int", paramType = "query",required=true)})
-    public ResultData list(@ModelAttribute AnalysisWordData analysisWordData,Integer pageNum, Integer pageSize) {
+    public ResultData list(@ModelAttribute AnalysisWordData analysisWordData,String begin,String end,Integer pageNum, Integer pageSize) {
     	if (null == analysisWordData) analysisWordData = new AnalysisWordData();
     	analysisWordData.setSortColumns(AnalysisWordData.Field.CreateTime_DESC);
+    	if(!StringUtils.isBlank(begin)) {
+    		try {
+    			analysisWordData.setCreateTimeGte(DateUtils.parseDate(begin, "yyyy-MM-dd"));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+    	}
+    	if(!StringUtils.isBlank(end)) {
+    		try {
+    			analysisWordData.setCreateTimeLte(DateUtils.parseDate(end, "yyyy-MM-dd"));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+    	}
         final PageInfo<AnalysisWordData> page = analysisWordDataService.listAsPage(analysisWordData, pageNum, pageSize);
         return new ResultData(page);
     }
+    @HoldEnd
 
     @PostMapping("add")
     public ResultData add(@RequestBody AnalysisWordData analysisWordData) {
