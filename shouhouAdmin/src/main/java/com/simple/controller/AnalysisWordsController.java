@@ -3,6 +3,7 @@ package com.simple.controller;
 //@HoldBegin
 import java.io.File;
 import java.io.FileInputStream;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 //@HoldEnd
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -181,10 +183,26 @@ public class AnalysisWordsController extends BaseController
 	 
 	@GetMapping("calculateList")
         @ApiImplicitParams({
+          @ApiImplicitParam(name="begin",value="开始日期",dataType="String", paramType = "query",required=true),
+          @ApiImplicitParam(name="end",value="结束日期",dataType="String", paramType = "query",required=true),
     	  @ApiImplicitParam(name="pageNum",value="页数",dataType="int", paramType = "query",required=true),
     	  @ApiImplicitParam(name="pageSize",value="每页条数",dataType="int", paramType = "query",required=true)})
-    public ResultData calculateList(@ModelAttribute AnalysisWordData analysisWords,Integer pageNum, Integer pageSize) {
+    public ResultData calculateList(@ModelAttribute AnalysisWordData analysisWords,String begin,String end,Integer pageNum, Integer pageSize) {
     	if (null == analysisWords) analysisWords = new AnalysisWordData();
+    	if(!StringUtils.isBlank(begin)) {
+    		try {
+				analysisWords.setCreateTimeGte(DateUtils.parseDate(begin, "yyyy-MM-dd"));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+    	}
+    	if(!StringUtils.isBlank(end)) {
+    		try {
+				analysisWords.setCreateTimeLte(DateUtils.parseDate(end, "yyyy-MM-dd"));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+    	}
         final PageInfo<AnalysisWordData> page = analysisWordDataService.caluculateListAsPage(analysisWords, pageNum, pageSize);
         return new ResultData(page);
     }
