@@ -87,8 +87,10 @@ public class AnalysisWordsController extends BaseController
 
 	 @HoldBegin
      @PostMapping("/uploadwords")
-	 @ApiImplicitParam(name="productId",value="产品编号",dataType="String", paramType = "query",required=true)
-     public String uploadwords(String productId,@RequestParam("file") MultipartFile file,HttpServletRequest request,HttpServletResponse response) throws Exception {
+	 @ApiImplicitParams({
+		 @ApiImplicitParam(name="begindate",value="日期",dataType="String", paramType = "query",required=true),
+	 @ApiImplicitParam(name="productId",value="产品编号",dataType="String", paramType = "query",required=true)})
+     public String uploadwords(String begindate,String productId,@RequestParam("file") MultipartFile file,HttpServletRequest request,HttpServletResponse response) throws Exception {
  		String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
  		ResponseInfo ri = ReadExcel.readReturnWorkBook(file.getInputStream(),new ObjectExcutor(){
  				@Override
@@ -150,16 +152,22 @@ public class AnalysisWordsController extends BaseController
  	 							return null;
  	 						}
  	 						AnalysisWordData awd = new AnalysisWordData();
- 	 						awd.setCr(crd);
- 	 						awd.setCreateTime(new Date());
- 	 						awd.setPayCounts(paycount);
- 	 						awd.setPeopleCounts(peoplecount);
- 	 						awd.setWordsId(aw.getId());
- 	 						awd.setProductId(aw.getProductId());
- 	 						awd.setWordsName(aw.getWordsName());
- 							//此处设置objectMap,在重写executeListAdd的时候，需要查询出list之前的对象，根据objectMap来查询
- 							//objectMap.put(p.getCardNo(), awd);
- 							return awd;
+ 	 						try {
+ 	 							awd.setCr(crd);
+ 	 							awd.setCreateTime(DateUtils.parseDate(begindate+" 01:00:00", "yyyy-MM-dd HH:mm:ss"));
+ 	 	 						awd.setPayCounts(paycount);
+ 	 	 						awd.setPeopleCounts(peoplecount);
+ 	 	 						awd.setWordsId(aw.getId());
+ 	 	 						awd.setProductId(aw.getProductId());
+ 	 	 						awd.setWordsName(aw.getWordsName());
+ 	 							//此处设置objectMap,在重写executeListAdd的时候，需要查询出list之前的对象，根据objectMap来查询
+ 	 							//objectMap.put(p.getCardNo(), awd);
+ 	 							return awd;
+ 	 						} catch (ParseException e) {
+ 	 							e.printStackTrace();
+ 	 							return null;
+ 	 						}
+ 	 						
  						}
  				}
  			},suffix);
@@ -208,7 +216,4 @@ public class AnalysisWordsController extends BaseController
     }
 	 
      //@HoldEnd
-
-
-	
 }
