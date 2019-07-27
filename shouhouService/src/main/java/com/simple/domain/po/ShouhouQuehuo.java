@@ -11,11 +11,11 @@ import com.simple.annotation.HoldEnd;
 @Table(name = "shouhou_quehuo")
 public class ShouhouQuehuo extends BaseModel {
 	private static final long serialVersionUID = 1L;
-	/*产品名称[LIKE]**/
-	@io.swagger.annotations.ApiModelProperty(value="产品名称[LIKE]",name="productName")
-	private String productName;
+	/*订单编号[LIKE]**/
+	@io.swagger.annotations.ApiModelProperty(value="订单编号[LIKE]",name="orderId")
+	private String orderId;
 	@Transient
-	private String productNameLike;
+	private String orderIdLike;
 	/*创建时间[GTE][LTE]**/
 	@io.swagger.annotations.ApiModelProperty(value="创建时间[GTE][LTE]",name="createTime")
 	private Date createTime;
@@ -32,20 +32,29 @@ public class ShouhouQuehuo extends BaseModel {
 	/*更新人**/
 	@io.swagger.annotations.ApiModelProperty(value="更新人",name="updateBy")
 	private String updateBy;
-	/*备注**/
-	@io.swagger.annotations.ApiModelProperty(value="备注",name="remark")
-	private String remark;
-	public String  getProductName() {
-		return productName;
+	/*仓库备注**/
+	@io.swagger.annotations.ApiModelProperty(value="仓库备注",name="ckRemark")
+	private String ckRemark;
+	/*客服备注**/
+	@io.swagger.annotations.ApiModelProperty(value="客服备注",name="kfRemark")
+	private String kfRemark;
+	/*是否已完成**/
+	@io.swagger.annotations.ApiModelProperty(value="是否已完成",name="finished")
+	private Integer finished;
+	/*处理状态**/
+	@io.swagger.annotations.ApiModelProperty(value="处理状态",name="handleStatus")
+	private Integer handleStatus;
+	public String  getOrderId() {
+		return orderId;
 	}
-	public void setProductName(String _productName) {
-		productName = _productName;
+	public void setOrderId(String _orderId) {
+		orderId = _orderId;
 	}
-	public String  getProductNameLike() {
-		return productNameLike;
+	public String  getOrderIdLike() {
+		return orderIdLike;
 	}
-	public void setProductNameLike( String _productNameLike) {
-		productNameLike = _productNameLike;
+	public void setOrderIdLike( String _orderIdLike) {
+		orderIdLike = _orderIdLike;
 	}
 	public Date  getCreateTime() {
 		return createTime;
@@ -83,11 +92,29 @@ public class ShouhouQuehuo extends BaseModel {
 	public void setUpdateBy(String _updateBy) {
 		updateBy = _updateBy;
 	}
-	public String  getRemark() {
-		return remark;
+	public String  getCkRemark() {
+		return ckRemark;
 	}
-	public void setRemark(String _remark) {
-		remark = _remark;
+	public void setCkRemark(String _ckRemark) {
+		ckRemark = _ckRemark;
+	}
+	public String  getKfRemark() {
+		return kfRemark;
+	}
+	public void setKfRemark(String _kfRemark) {
+		kfRemark = _kfRemark;
+	}
+	public Integer  getFinished() {
+		return finished;
+	}
+	public void setFinished(Integer _finished) {
+		finished = _finished;
+	}
+	public Integer  getHandleStatus() {
+		return handleStatus;
+	}
+	public void setHandleStatus(Integer _handleStatus) {
+		handleStatus = _handleStatus;
 	}
 
 
@@ -95,12 +122,15 @@ public class ShouhouQuehuo extends BaseModel {
 	public static enum Field
 	{
 		Id_ASC("`id` ASC"),Id_DESC("`id` DESC")
-			,ProductName_ASC("`product_name` ASC"),ProductName_DESC("`product_name` DESC")
-			,CreateTime_ASC("`create_time` ASC"),CreateTime_DESC("`create_time` DESC")
-			,CreateBy_ASC("`create_by` ASC"),CreateBy_DESC("`create_by` DESC")
-			,UpdateTime_ASC("`update_time` ASC"),UpdateTime_DESC("`update_time` DESC")
-			,UpdateBy_ASC("`update_by` ASC"),UpdateBy_DESC("`update_by` DESC")
-			,Remark_ASC("`remark` ASC"),Remark_DESC("`remark` DESC")
+			,OrderId_ASC("`orderId` ASC"),OrderId_DESC("`orderId` DESC")
+			,CreateTime_ASC("`createTime` ASC"),CreateTime_DESC("`createTime` DESC")
+			,CreateBy_ASC("`createBy` ASC"),CreateBy_DESC("`createBy` DESC")
+			,UpdateTime_ASC("`updateTime` ASC"),UpdateTime_DESC("`updateTime` DESC")
+			,UpdateBy_ASC("`updateBy` ASC"),UpdateBy_DESC("`updateBy` DESC")
+			,CkRemark_ASC("`ckRemark` ASC"),CkRemark_DESC("`ckRemark` DESC")
+			,KfRemark_ASC("`kfRemark` ASC"),KfRemark_DESC("`kfRemark` DESC")
+			,Finished_ASC("`finished` ASC"),Finished_DESC("`finished` DESC")
+			,HandleStatus_ASC("`handleStatus` ASC"),HandleStatus_DESC("`handleStatus` DESC")
 	;
 		private String value;
 		Field(String value){

@@ -26,15 +26,32 @@ public class ShouhouQuehuoController extends BaseController
 
     private Logger logger = Logger.getLogger(ShouhouQuehuoController.class);
 
+    @GetMapping("/del")
+     @ApiImplicitParam(name="id",value="id",dataType="String", paramType = "query",required=true)
+    public ResultData delete(String id) {
+        shouhouQuehuoService.deleteById(id);
+        return new ResultData(Result.SUCCESS, "删除成功", null);
+    }
     
-    @HoldBegin
+     @GetMapping("/findById")
+     @ApiImplicitParam(name="id",value="id",dataType="String", paramType = "query",required=true)
+    public ResultData findById(String id) {
+    	return new ResultData(Result.SUCCESS,"查询成功",shouhouQuehuoService.getById(id));
+    }
+	
+		    @HoldBegin
     @GetMapping("list")
         @ApiImplicitParams({
     	  @ApiImplicitParam(name="pageNum",value="页数",dataType="int", paramType = "query",required=true),
     	  @ApiImplicitParam(name="pageSize",value="每页条数",dataType="int", paramType = "query",required=true)})
-    public ResultData list(@ModelAttribute ShouhouQuehuo shouhouQuehuo,Integer pageNum, Integer pageSize) {
+    public ResultData list(@ModelAttribute ShouhouQuehuo shouhouQuehuo,Integer pageNum, Integer pageSize,int ck) {
     	if (null == shouhouQuehuo) shouhouQuehuo = new ShouhouQuehuo();
-    	shouhouQuehuo.setSortColumns(ShouhouQuehuo.Field.UpdateTime_DESC);
+    	if (ck==0) {
+    		shouhouQuehuo.setSortColumns(ShouhouQuehuo.Field.CreateTime_ASC);
+    	}else {
+    		shouhouQuehuo.setSortColumns(ShouhouQuehuo.Field.CreateTime_DESC);
+    	}
+    	
         final PageInfo<ShouhouQuehuo> page = shouhouQuehuoService.listAsPage(shouhouQuehuo, pageNum, pageSize);
         return new ResultData(page);
     }
@@ -56,21 +73,22 @@ public class ShouhouQuehuoController extends BaseController
         shouhouQuehuoService.saveOrUpdate(shouhouQuehuo);
         return new ResultData();
     }   
-    @HoldEnd
-
-    @GetMapping("/del")
-     @ApiImplicitParam(name="id",value="id",dataType="String", paramType = "query",required=true)
-    public ResultData delete(String id) {
-        shouhouQuehuoService.deleteById(id);
-        return new ResultData(Result.SUCCESS, "删除成功", null);
-    }
     
-     @GetMapping("/findById")
-     @ApiImplicitParam(name="id",value="id",dataType="String", paramType = "query",required=true)
-    public ResultData findById(String id) {
-    	return new ResultData(Result.SUCCESS,"查询成功",shouhouQuehuoService.getById(id));
-    }
-	
-	
+    @GetMapping("/deliver")
+    @ApiImplicitParam(name="id",value="id",dataType="String", paramType = "query",required=true)
+   public ResultData deliver(String id) {
+       ShouhouQuehuo quehuo = shouhouQuehuoService.getById(id);
+       quehuo.setFinished(1);
+       quehuo.setHandleStatus(2);
+       quehuo.setUpdateTime(new Date());
+       shouhouQuehuoService.saveOrUpdate(quehuo);
+       return new ResultData(Result.SUCCESS, "更新成功", null);
+   }
+    
+    
+    
+    //@HoldEnd
+
+
 	
 }
