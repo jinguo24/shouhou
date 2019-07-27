@@ -122,15 +122,15 @@ public class ShouhouQuehuo extends BaseModel {
 	public static enum Field
 	{
 		Id_ASC("`id` ASC"),Id_DESC("`id` DESC")
-			,OrderId_ASC("`orderId` ASC"),OrderId_DESC("`orderId` DESC")
-			,CreateTime_ASC("`createTime` ASC"),CreateTime_DESC("`createTime` DESC")
-			,CreateBy_ASC("`createBy` ASC"),CreateBy_DESC("`createBy` DESC")
-			,UpdateTime_ASC("`updateTime` ASC"),UpdateTime_DESC("`updateTime` DESC")
-			,UpdateBy_ASC("`updateBy` ASC"),UpdateBy_DESC("`updateBy` DESC")
+			,OrderId_ASC("`order_id` ASC"),OrderId_DESC("`order_id` DESC")
+			,CreateTime_ASC("`create_time` ASC"),CreateTime_DESC("`create_time` DESC")
+			,CreateBy_ASC("`create_by` ASC"),CreateBy_DESC("`create_by` DESC")
+			,UpdateTime_ASC("`update_time` ASC"),UpdateTime_DESC("`update_time` DESC")
+			,UpdateBy_ASC("`update_by` ASC"),UpdateBy_DESC("`update_by` DESC")
 			,CkRemark_ASC("`ckRemark` ASC"),CkRemark_DESC("`ckRemark` DESC")
 			,KfRemark_ASC("`kfRemark` ASC"),KfRemark_DESC("`kfRemark` DESC")
 			,Finished_ASC("`finished` ASC"),Finished_DESC("`finished` DESC")
-			,HandleStatus_ASC("`handleStatus` ASC"),HandleStatus_DESC("`handleStatus` DESC")
+			,HandleStatus_ASC("`handle_status` ASC"),HandleStatus_DESC("`handle_status` DESC")
 	;
 		private String value;
 		Field(String value){
