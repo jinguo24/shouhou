@@ -165,24 +165,24 @@ public class ShouhouProductCostController extends BaseController
  		ResponseInfo ri = ReadExcel.readReturnWorkBook(file.getInputStream(),new ObjectExcutor(){
  				@Override
  				public Object getObject(Map objectMap,List<String> cellValues) {
- 						String wordsname = StringUtils.trimToNull(cellValues.get(0));
- 						String productcode = StringUtils.trimToNull(cellValues.get(1));
+ 						String productcode = StringUtils.trimToNull(cellValues.get(0));
  						
 						ShouhouProductCost awqq = new ShouhouProductCost();
 						awqq.setProductCode(productcode);
 						PageInfo<ShouhouProductCost> spcp = shouhouProductCostService.listAsPage(awqq, 1, 1);
  						if (null == spcp || null == spcp.getList() || spcp.getList().size() == 0) {
- 							errormsg.append(productcode);
+ 							errormsg.append(productcode).append("\\r\\n");
  						}
- 							return null;
+ 						return null;
  				}
  			},suffix);
  		boolean isSuccess = ri.getStatus().getState();
  		if (isSuccess) {
+ 			ExcelUtil.pushJsonToResponse(response, errormsg.toString());
  			return "success";//
  		}else {
  			//如果失败，则将错误文件提供下载
- 			ExcelUtil.pushJsonToResponse(response, errormsg.toString());
+ 			ExcelUtil.pushJsonToResponse(response, ri.getStatus().getMessage());
  			return null;
  		}
  			
@@ -217,6 +217,5 @@ public class ShouhouProductCostController extends BaseController
 	   }
 	 
 	 //@HoldEnd
-	
 	
 }
