@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -162,6 +163,7 @@ public class ShouhouProductCostController extends BaseController
      public String uploadcheck(@RequestParam("file") MultipartFile file,HttpServletRequest request,HttpServletResponse response) throws Exception {
  		String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
  		StringBuffer errormsg = new StringBuffer();
+ 		Map retMap = new HashMap();
  		ResponseInfo ri = ReadExcel.readReturnWorkBook(file.getInputStream(),new ObjectExcutor(){
  				@Override
  				public Object getObject(Map objectMap,List<String> cellValues) {
@@ -171,7 +173,11 @@ public class ShouhouProductCostController extends BaseController
 						awqq.setProductCode(productcode);
 						PageInfo<ShouhouProductCost> spcp = shouhouProductCostService.listAsPage(awqq, 1, 1);
  						if (null == spcp || null == spcp.getList() || spcp.getList().size() == 0) {
- 							errormsg.append(productcode).append("\\r\\n");
+ 							if (!retMap.containsKey(productcode)) {
+ 								errormsg.append(productcode).append("，");
+ 								retMap.put(productcode, productcode);
+ 							}
+ 							
  						}
  						return null;
  				}
